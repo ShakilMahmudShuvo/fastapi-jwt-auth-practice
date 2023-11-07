@@ -29,9 +29,13 @@ async def read_root() -> dict:
     return {"message": "Welcome to your blog!"}
 
 
-@app.get("/posts", tags=["posts"])
-async def get_posts() -> dict:
-    return { "data": posts }
+@app.post("/posts", dependencies=[Depends(JWTBearer())], tags=["posts"])
+async def add_post(post: PostSchema) -> dict:
+    post.id = len(posts) + 1
+    posts.append(post.dict())
+    return {
+        "data": "post added."
+    }
 
 
 @app.get("/posts/{id}", tags=["posts"])
