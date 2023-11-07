@@ -56,6 +56,7 @@ async def add_post(post: PostSchema) -> dict:
     }
 
 
+# signup
 @app.post("/user/signup", tags=["user"])
 async def create_user(user: UserSchema = Body(...)):
     users.append(user) # replace with db call, making sure to hash the password first
